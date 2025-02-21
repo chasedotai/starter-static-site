@@ -1,10 +1,15 @@
 :root {
-    --primary-color: #333;
-    --background-color: #fff;
+    --primary-color: #e0e0e0;
+    --background-color: #1a1a1a;
+    --nav-bg: #252525;
+    --footer-bg: #252525;
+    --link-color: #4a9eff;
+    --border-color: #333;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 400;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -12,15 +17,26 @@ body {
     background: var(--background-color);
 }
 
+/* Make headings slightly bolder */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
 nav {
     padding: 1rem;
-    background: #f5f5f5;
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--border-color);
 }
 
 nav a {
     margin-right: 1rem;
     text-decoration: none;
     color: var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--link-color);
 }
 
 main {
@@ -32,13 +48,14 @@ main {
 footer {
     text-align: center;
     padding: 2rem;
-    background: #f5f5f5;
+    background: var(--footer-bg);
+    border-top: 1px solid var(--border-color);
 }
 
 .blog-post {
     margin-bottom: 2rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .blog-post:last-child {
@@ -46,7 +63,7 @@ footer {
 }
 
 .blog-post time {
-    color: #666;
+    color: #888;
     font-size: 0.9rem;
     display: block;
     margin: 0.5rem 0;
@@ -59,20 +76,20 @@ footer {
 .blog-post h2 a {
     color: var(--primary-color);
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .blog-post h2 a:hover {
-    text-decoration: underline;
+    color: var(--link-color);
 }
 
-### Lists
+/* Add styles for regular links in content */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
 
-- Unordered lists use hyphens
-- Like this one
-- Super simple!
-
-1. Ordered lists use numbers
-2. They're automatic
-3. Just start with 1.
-
-[Read More About Markdown](https://www.markdownguide.org) 
+a:hover {
+    text-decoration: underline;
+}

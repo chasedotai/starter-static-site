@@ -48,13 +48,16 @@ function slugify(text) {
     .replace(/-+$/, '');         // Trim - from end of text
 }
 
-// Add this new function to extract internal links
+// Update the extractInternalLinks function
 function extractInternalLinks(content) {
   const links = new Set();
   const linkRegex = /\[\[(.*?)\]\]/g;
   let match;
   
   while ((match = linkRegex.exec(content)) !== null) {
+    // Skip if this is an image link (starts with !)
+    if (content.charAt(match.index - 1) === '!') continue;
+    
     const link = match[1].split('|')[0]; // Get the link part before any |
     links.add(link);
   }

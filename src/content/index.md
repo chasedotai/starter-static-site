@@ -1,18 +1,19 @@
 ---
-title: About - Digital Garden
+title: About Chase
 ---
 
-# Welcome to my digital garden 🌱
+# Who is Chase? 🌱
 
-This is my personal space for thoughts, notes, and explorations. Unlike traditional blogs, this is a space that grows and evolves over time, much like a garden.
-
+The hyperobject at the end of the universe is my personal website.
 ## What you'll find here
 
 Here you'll find my notes on:
 
-- Web Development
-- Technology
-- Personal Knowledge Management
-- And other topics that interest me
+- Values
+- Thematic resonance across domains
+- The past and the future
+- Pen plotting
+- Parenting
+- Topics I want to talk to people about
 
-Feel free to explore and watch how these thoughts grow over time. Start with the [[rabbit-holes|rabbit holes]] I've gone down. 
+Start with the [[rabbit-holes|rabbit holes]] I've gone down.

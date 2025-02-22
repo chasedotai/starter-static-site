@@ -11,10 +11,14 @@
             "id": "ef0019df9fabff42",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "index.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "index"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for index"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from index"
             }
           },
           {
@@ -136,12 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "index.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of index"
             }
           }
         ]
@@ -163,6 +170,9 @@
   },
   "active": "ef0019df9fabff42",
   "lastOpenFiles": [
+    "blog.md",
+    "index.md",
+    "rabbit-holes.md",
     "rabbit-holes/How To Do The Right Things Faster.md",
     "How To Do The Right Things Faster.md",
     "The nature of truth.md",
@@ -175,8 +185,6 @@
     "blog/What are values?.md",
     "blog",
     "rabbit-holes/getting-started.md",
-    "rabbit-holes/example-post.md",
-    "rabbit-holes.md",
-    "blog.md"
+    "rabbit-holes/example-post.md"
   ]
 }

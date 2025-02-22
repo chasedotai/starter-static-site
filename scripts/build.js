@@ -19,8 +19,14 @@ const template = fs.readFileSync(
 
 // Convert Obsidian links to HTML links and handle attachments
 function convertObsidianLinks(content) {
-  // Convert [[page]] to regular links
-  content = content.replace(/\[\[(.*?)\]\]/g, (match, p1) => {
+  // First convert ![[image.png]] to <img> tags - must come before regular links
+  content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
+    console.log('Converting image:', p1);
+    return `![${p1}](/attachments/${p1})`;
+  });
+
+  // Then convert [[page]] to regular links
+  content = content.replace(/(?<!!)\[\[(.*?)\]\]/g, (match, p1) => {
     if (p1.includes('|')) {
       const [link, text] = p1.split('|');
       return `[${text}](/${link}.html)`;
@@ -28,11 +34,7 @@ function convertObsidianLinks(content) {
     return `[${p1}](/${p1}.html)`;
   });
 
-  // Convert ![[image.png]] to <img> tags
-  content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
-    return `![${p1}](/attachments/${p1})`;
-  });
-
+  console.log('Processed content:', content);
   return content;
 }
 

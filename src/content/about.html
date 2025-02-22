@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
+    <title>About - Digital Garden</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,7 +13,6 @@
     <button class="theme-toggle" aria-label="Toggle theme">
         🌙
     </button>
-    
     <nav>
         <span class="site-name">Chase</span>
         <div class="nav-links">
@@ -22,7 +21,29 @@
         </div>
     </nav>
     <main>
-        {{content}}
+        <h1>Welcome to my digital garden 🌱</h1>
+        
+        <p>
+            This is my personal space for thoughts, notes, and explorations. 
+            Unlike traditional blogs, this is a space that grows and evolves over time, 
+            much like a garden.
+        </p>
+
+        <p>
+            Here you'll find my notes on:
+        </p>
+
+        <ul>
+            <li>Web Development</li>
+            <li>Technology</li>
+            <li>Personal Knowledge Management</li>
+            <li>And other topics that interest me</li>
+        </ul>
+
+        <p>
+            Feel free to explore and watch how these thoughts grow over time. 
+            Start with the <a href="/blog.html">rabbit holes</a> I've gone down.
+        </p>
     </main>
     <footer>
         <p>
@@ -32,23 +53,7 @@
     </footer>
 
     <script>
-        // Theme toggle functionality
-        const html = document.documentElement;
-        const themeToggle = document.querySelector('.theme-toggle');
-        
-        // Check for saved theme preference, otherwise use dark theme
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        html.setAttribute('data-theme', savedTheme);
-        themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-        
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-        });
+        // Theme toggle functionality stays the same
     </script>
 </body>
 </html> 

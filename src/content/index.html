@@ -1,28 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name</title>
+    <title>About - Digital Garden</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles/main.css">
 </head>
 <body>
+    <button class="theme-toggle" aria-label="Toggle theme">
+        🌙
+    </button>
     <nav>
-        <a href="/">Home</a>
-        <a href="/blog.html">Blog</a>
-        <a href="/about.html">About</a>
-        <a href="/faq.html">FAQ</a>
-        <a href="/contact.html">Contact</a>
+        <span class="site-name">Chase</span>
+        <div class="nav-links">
+            <a href="/">About</a>
+            <a href="/blog.html">Rabbit Holes</a>
+        </div>
     </nav>
     <main>
-        <h1>Welcome to My Site</h1>
-        <p>This is your custom landing page. Feel free to make it exactly how you want!</p>
+        <h1>Welcome to my digital garden 🌱</h1>
+        
+        <p>
+            This is my personal space for thoughts, notes, and explorations. 
+            Unlike traditional blogs, this is a space that grows and evolves over time, 
+            much like a garden.
+        </p>
+
+        <p>
+            Here you'll find my notes on:
+        </p>
+
+        <ul>
+            <li>Web Development</li>
+            <li>Technology</li>
+            <li>Personal Knowledge Management</li>
+            <li>And other topics that interest me</li>
+        </ul>
+
+        <p>
+            Feel free to explore and watch how these thoughts grow over time. 
+            Start with the <a href="/blog.html">rabbit holes</a> I've gone down.
+        </p>
     </main>
     <footer>
-        <p>&copy; 2024 Your Name</p>
+        <p>
+            Built with care using Node.js and Markdown. 
+            Source available on <a href="https://github.com/yourusername/your-repo">GitHub</a>.
+        </p>
     </footer>
+
+    <script>
+        // Theme toggle functionality
+        const html = document.documentElement;
+        const themeToggle = document.querySelector('.theme-toggle');
+        
+        // Check for saved theme preference, otherwise use dark theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        });
+    </script>
 </body>
 </html> 

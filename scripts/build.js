@@ -6,6 +6,7 @@ const frontMatter = require('front-matter');
 // Ensure build directories exist
 fs.ensureDirSync(path.join(__dirname, '../public'));
 fs.ensureDirSync(path.join(__dirname, '../src/content'));
+fs.ensureDirSync(path.join(__dirname, '../src/content/attachments')); // For Obsidian attachments
 fs.ensureDirSync(path.join(__dirname, '../src/templates'));
 
 // Read template
@@ -14,6 +15,25 @@ const template = fs.readFileSync(
   'utf-8'
 );
 
+// Convert Obsidian links to HTML links and handle attachments
+function convertObsidianLinks(content) {
+  // Convert [[page]] to regular links
+  content = content.replace(/\[\[(.*?)\]\]/g, (match, p1) => {
+    if (p1.includes('|')) {
+      const [link, text] = p1.split('|');
+      return `[${text}](/${link}.html)`;
+    }
+    return `[${p1}](/${p1}.html)`;
+  });
+
+  // Convert ![[image.png]] to <img> tags
+  content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
+    return `![${p1}](/attachments/${p1})`;
+  });
+
+  return content;
+}
+
 // Build pages
 async function build() {
   // Copy static assets
@@ -21,6 +41,15 @@ async function build() {
     path.join(__dirname, '../src/styles'),
     path.join(__dirname, '../public/styles')
   );
+  
+  // Copy attachments
+  const attachmentsDir = path.join(__dirname, '../src/content/attachments');
+  if (fs.existsSync(attachmentsDir)) {
+    await fs.copy(
+      attachmentsDir,
+      path.join(__dirname, '../public/attachments')
+    );
+  }
   
   // Create blog directory in public
   fs.ensureDirSync(path.join(__dirname, '../public/blog'));
@@ -40,7 +69,8 @@ async function build() {
       if (file.endsWith('.md')) {
         const content = await fs.readFile(path.join(blogDir, file), 'utf-8');
         const { attributes, body } = frontMatter(content);
-        const html = marked(body);
+        const processedBody = convertObsidianLinks(body);
+        const html = marked(processedBody);
         
         blogPosts.push({
           title: attributes.title,
@@ -64,23 +94,14 @@ async function build() {
   // Sort blog posts by date
   blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
   
-  // Copy static index.html if it exists
-  const indexPath = path.join(contentDir, 'index.html');
-  if (fs.existsSync(indexPath)) {
-    await fs.copy(indexPath, path.join(__dirname, '../public/index.html'));
-  }
-  
-  // Process regular markdown pages
+  // Process regular markdown files
   const files = await fs.readdir(contentDir);
-  
   for (const file of files) {
-    // Skip index.html as we handle it separately
-    if (file === 'index.html') continue;
-    
-    if (file.endsWith('.md')) {
+    if (file.endsWith('.md') && !file.startsWith('_')) {
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
       const { attributes, body } = frontMatter(content);
-      let html = marked(body);
+      const processedBody = convertObsidianLinks(body);
+      let html = marked(processedBody);
       
       // If this is the blog index, inject the blog posts list
       if (file === 'blog.md') {

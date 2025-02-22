@@ -64,8 +64,12 @@ function extractInternalLinks(content) {
 
 // Add this function to create a placeholder page
 function createPlaceholderContent(title) {
+  const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+  
   return `---
 title: ${title}
+date: ${today}
+description: A future exploration
 status: stub
 ---
 
@@ -120,7 +124,8 @@ async function build() {
           title: attributes.title,
           date: attributes.date,
           description: attributes.description,
-          url: `/rabbit-holes/${safeFileName}`
+          url: `/rabbit-holes/${safeFileName}`,
+          status: attributes.status || 'published'
         });
         
         const finalHtml = template
@@ -142,7 +147,7 @@ async function build() {
   const allInternalLinks = new Set();
   const existingFiles = new Set();
   
-  // First pass: collect existing files and all internal links
+  // First pass: collect existing files and all internal links from main content
   const files = await fs.readdir(contentDir);
   for (const file of files) {
     if (file.endsWith('.md')) {
@@ -152,10 +157,22 @@ async function build() {
     }
   }
 
+  // Also check rabbit-holes directory for links
+  if (fs.existsSync(blogDir)) {
+    const blogFiles = await fs.readdir(blogDir);
+    for (const file of blogFiles) {
+      if (file.endsWith('.md')) {
+        existingFiles.add(file.replace('.md', ''));
+        const content = await fs.readFile(path.join(blogDir, file), 'utf-8');
+        extractInternalLinks(content).forEach(link => allInternalLinks.add(link));
+      }
+    }
+  }
+
   // Create placeholder files for missing links
   for (const link of allInternalLinks) {
     if (!existingFiles.has(link)) {
-      const placeholderPath = path.join(contentDir, `${link}.md`);
+      const placeholderPath = path.join(contentDir, 'rabbit-holes', `${link}.md`);
       if (!fs.existsSync(placeholderPath)) {
         await fs.writeFile(
           placeholderPath,
@@ -178,8 +195,11 @@ async function build() {
       if (file === 'rabbit-holes.md') {
         const postsHtml = blogPosts
           .map(post => `
-            <article class="blog-post">
-              <h2><a href="${post.url}">${post.title}</a></h2>
+            <article class="blog-post ${post.status === 'stub' ? 'stub-post' : ''}">
+              <h2>
+                <a href="${post.url}">${post.title}</a>
+                ${post.status === 'stub' ? '<span class="stub-indicator">Stub</span>' : ''}
+              </h2>
               <time datetime="${post.date}">${new Date(post.date).toLocaleDateString()}</time>
               <p>${post.description}</p>
             </article>

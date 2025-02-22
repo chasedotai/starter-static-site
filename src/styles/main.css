@@ -160,3 +160,24 @@ footer {
 .blog-post h2 a:hover {
     color: var(--color-link);
 }
+
+/* Add these styles for stub posts */
+.stub-post {
+    opacity: 0.8;
+    position: relative;
+}
+
+.stub-indicator {
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--color-text-secondary);
+    color: var(--color-bg);
+    margin-left: 8px;
+    vertical-align: middle;
+    font-weight: normal;
+}
+
+.stub-post:hover {
+    opacity: 1;
+}

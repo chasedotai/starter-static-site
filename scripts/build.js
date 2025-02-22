@@ -5,7 +5,9 @@ const frontMatter = require('front-matter');
 
 // Ensure build directories exist
 fs.ensureDirSync(path.join(__dirname, '../public'));
+fs.ensureDirSync(path.join(__dirname, '../public/rabbit-holes'));
 fs.ensureDirSync(path.join(__dirname, '../src/content'));
+fs.ensureDirSync(path.join(__dirname, '../src/content/rabbit-holes'));
 fs.ensureDirSync(path.join(__dirname, '../src/content/attachments')); // For Obsidian attachments
 fs.ensureDirSync(path.join(__dirname, '../src/templates'));
 
@@ -34,6 +36,18 @@ function convertObsidianLinks(content) {
   return content;
 }
 
+// Add this helper function at the top with the other functions
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-')        // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')    // Remove all non-word chars
+    .replace(/\-\-+/g, '-')      // Replace multiple - with single -
+    .replace(/^-+/, '')          // Trim - from start of text
+    .replace(/-+$/, '');         // Trim - from end of text
+}
+
 // Build pages
 async function build() {
   // Copy static assets
@@ -52,11 +66,11 @@ async function build() {
   }
   
   // Create blog directory in public
-  fs.ensureDirSync(path.join(__dirname, '../public/blog'));
+  fs.ensureDirSync(path.join(__dirname, '../public/rabbit-holes'));
   
   // Process markdown files
   const contentDir = path.join(__dirname, '../src/content');
-  const blogDir = path.join(contentDir, 'blog');
+  const blogDir = path.join(contentDir, 'rabbit-holes');
   
   // Track blog posts for the index
   const blogPosts = [];
@@ -72,11 +86,14 @@ async function build() {
         const processedBody = convertObsidianLinks(body);
         const html = marked(processedBody);
         
+        // Create URL-friendly filename
+        const safeFileName = slugify(file.replace('.md', '')) + '.html';
+        
         blogPosts.push({
           title: attributes.title,
           date: attributes.date,
           description: attributes.description,
-          url: `/blog/${file.replace('.md', '.html')}`
+          url: `/rabbit-holes/${safeFileName}`
         });
         
         const finalHtml = template
@@ -84,7 +101,7 @@ async function build() {
           .replace('{{content}}', html);
         
         await fs.writeFile(
-          path.join(__dirname, '../public/blog', file.replace('.md', '.html')),
+          path.join(__dirname, '../public/rabbit-holes', safeFileName),
           finalHtml
         );
       }

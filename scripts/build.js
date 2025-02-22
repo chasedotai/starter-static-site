@@ -48,6 +48,33 @@ function slugify(text) {
     .replace(/-+$/, '');         // Trim - from end of text
 }
 
+// Add this new function to extract internal links
+function extractInternalLinks(content) {
+  const links = new Set();
+  const linkRegex = /\[\[(.*?)\]\]/g;
+  let match;
+  
+  while ((match = linkRegex.exec(content)) !== null) {
+    const link = match[1].split('|')[0]; // Get the link part before any |
+    links.add(link);
+  }
+  
+  return Array.from(links);
+}
+
+// Add this function to create a placeholder page
+function createPlaceholderContent(title) {
+  return `---
+title: ${title}
+status: stub
+---
+
+# ${title}
+
+This is a side path in this rabbit hole that I haven't gone down yet.
+`;
+}
+
 // Build pages
 async function build() {
   // Copy static assets
@@ -111,8 +138,35 @@ async function build() {
   // Sort blog posts by date
   blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
   
-  // Process regular markdown files
+  // Collect all internal links
+  const allInternalLinks = new Set();
+  const existingFiles = new Set();
+  
+  // First pass: collect existing files and all internal links
   const files = await fs.readdir(contentDir);
+  for (const file of files) {
+    if (file.endsWith('.md')) {
+      existingFiles.add(file.replace('.md', ''));
+      const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
+      extractInternalLinks(content).forEach(link => allInternalLinks.add(link));
+    }
+  }
+
+  // Create placeholder files for missing links
+  for (const link of allInternalLinks) {
+    if (!existingFiles.has(link)) {
+      const placeholderPath = path.join(contentDir, `${link}.md`);
+      if (!fs.existsSync(placeholderPath)) {
+        await fs.writeFile(
+          placeholderPath,
+          createPlaceholderContent(link)
+        );
+        console.log(`Created placeholder for: ${link}`);
+      }
+    }
+  }
+  
+  // Process regular markdown files
   for (const file of files) {
     if (file.endsWith('.md') && !file.startsWith('_')) {
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');

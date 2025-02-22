@@ -7,4 +7,6 @@ description: A collection of deep dives and explorations
 
 These are topics I always return to. I keep thinking and learning and writing more about them. 
 
+![[experimental-perlin-donut-plotterfiles.png]]
+
 <!-- Blog posts will be automatically inserted here by the build script --> 

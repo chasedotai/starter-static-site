@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
+                "file": "rabbit-holes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "rabbit-holes"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "rabbit-holes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for index"
+              "title": "Backlinks for rabbit-holes"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "index.md",
+                "file": "rabbit-holes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from index"
+              "title": "Outgoing links from rabbit-holes"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "index.md",
+                "file": "rabbit-holes.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of index"
+              "title": "Outline of rabbit-holes"
             }
           }
         ]
@@ -170,14 +170,15 @@
   },
   "active": "ef0019df9fabff42",
   "lastOpenFiles": [
-    "blog.md",
-    "index.md",
-    "rabbit-holes.md",
+    "experimental-perlin-donut-plotterfiles.png",
+    "rabbit-holes/What are values?.md",
     "rabbit-holes/How To Do The Right Things Faster.md",
+    "index.md",
+    "blog.md",
+    "rabbit-holes.md",
     "How To Do The Right Things Faster.md",
     "The nature of truth.md",
     "blog/What are Values.md",
-    "rabbit-holes/What are values?.md",
     "rabbit-holes/What are Values.md",
     "rabbit-holes",
     "blog/getting-started.md",

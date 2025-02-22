@@ -3,6 +3,8 @@ title: What are values?
 date: 2025-02-21
 description: A post about what it means to have, use, or make decisions driven by values.
 ---
+What are values?
+
 Values are a combination of inherited and chosen preferences about how the world should be. Often they're framed as being about what is morally right or virtuous or true. Values play a huge role in the decisions you make.
 
 Lots of people aren't that aware of their values. They learned their values through immersion in whatever culture they were raised in, and their values don't stand out in their mind. They're "just the way things are."

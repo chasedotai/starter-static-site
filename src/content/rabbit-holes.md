@@ -5,6 +5,6 @@ description: A collection of deep dives and explorations
 
 # Rabbit Holes 🕳️
 
-These are the various topics I've gone deep on. Each one represents hours of research, experimentation, and learning. Feel free to dive in!
+These are topics I always return to. I keep thinking and learning and writing more about them. 
 
 <!-- Blog posts will be automatically inserted here by the build script --> 

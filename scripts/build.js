@@ -151,7 +151,7 @@ async function build() {
   const files = await fs.readdir(contentDir);
   for (const file of files) {
     if (file.endsWith('.md')) {
-      existingFiles.add(file.replace('.md', ''));
+      existingFiles.add(path.join('rabbit-holes', file.replace('.md', '')));
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
       extractInternalLinks(content).forEach(link => allInternalLinks.add(link));
     }
@@ -162,7 +162,7 @@ async function build() {
     const blogFiles = await fs.readdir(blogDir);
     for (const file of blogFiles) {
       if (file.endsWith('.md')) {
-        existingFiles.add(file.replace('.md', ''));
+        existingFiles.add(path.join('rabbit-holes', file.replace('.md', '')));
         const content = await fs.readFile(path.join(blogDir, file), 'utf-8');
         extractInternalLinks(content).forEach(link => allInternalLinks.add(link));
       }
@@ -171,14 +171,17 @@ async function build() {
 
   // Create placeholder files for missing links
   for (const link of allInternalLinks) {
-    if (!existingFiles.has(link)) {
-      const placeholderPath = path.join(contentDir, 'rabbit-holes', `${link}.md`);
-      if (!fs.existsSync(placeholderPath)) {
+    const safePath = path.join(contentDir, 'rabbit-holes', `${link}.md`);
+    // Ensure the rabbit-holes directory exists
+    fs.ensureDirSync(path.join(contentDir, 'rabbit-holes'));
+    
+    if (!existingFiles.has(path.join('rabbit-holes', link))) {
+      if (!fs.existsSync(safePath)) {
         await fs.writeFile(
-          placeholderPath,
+          safePath,
           createPlaceholderContent(link)
         );
-        console.log(`Created placeholder for: ${link}`);
+        console.log(`Created placeholder for: ${link} in rabbit-holes directory`);
       }
     }
   }

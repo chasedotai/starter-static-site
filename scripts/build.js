@@ -104,7 +104,7 @@ async function build() {
       let html = marked(processedBody);
       
       // If this is the blog index, inject the blog posts list
-      if (file === 'blog.md') {
+      if (file === 'rabbit-holes.md') {
         const postsHtml = blogPosts
           .map(post => `
             <article class="blog-post">

@@ -15,4 +15,4 @@ Here you'll find my notes on:
 - Personal Knowledge Management
 - And other topics that interest me
 
-Feel free to explore and watch how these thoughts grow over time. Start with the [[blog|rabbit holes]] I've gone down. 
+Feel free to explore and watch how these thoughts grow over time. Start with the [[rabbit-holes|rabbit holes]] I've gone down. 

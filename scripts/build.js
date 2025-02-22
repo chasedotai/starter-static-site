@@ -64,10 +64,19 @@ async function build() {
   // Sort blog posts by date
   blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
   
-  // Process regular pages
+  // Copy static index.html if it exists
+  const indexPath = path.join(contentDir, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    await fs.copy(indexPath, path.join(__dirname, '../public/index.html'));
+  }
+  
+  // Process regular markdown pages
   const files = await fs.readdir(contentDir);
   
   for (const file of files) {
+    // Skip index.html as we handle it separately
+    if (file === 'index.html') continue;
+    
     if (file.endsWith('.md')) {
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
       const { attributes, body } = frontMatter(content);

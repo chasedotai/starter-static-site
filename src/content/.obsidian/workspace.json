@@ -163,16 +163,17 @@
   },
   "active": "ef0019df9fabff42",
   "lastOpenFiles": [
+    "blog/getting-started.md",
+    "blog/example-post.md",
     "blog/What are values?.md",
+    "blog/What are Values.md",
+    "blog",
     "rabbit-holes/getting-started.md",
     "rabbit-holes/example-post.md",
     "rabbit-holes/What are values?.md",
     "rabbit-holes/What are Values.md",
     "rabbit-holes",
     "rabbit-holes.md",
-    "blog/getting-started.md",
-    "blog/What are Values.md",
-    "blog.md",
-    "blog/example-post.md"
+    "blog.md"
   ]
 }

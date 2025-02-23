@@ -11,14 +11,10 @@
             "id": "ef0019df9fabff42",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "rabbit-holes.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "rabbit-holes"
+              "title": "New tab"
             }
           }
         ]
@@ -94,7 +90,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "rabbit-holes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +99,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for rabbit-holes"
+              "title": "Backlinks"
             }
           },
           {
@@ -113,12 +108,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "rabbit-holes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from rabbit-holes"
+              "title": "Outgoing links"
             }
           },
           {
@@ -142,13 +136,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "rabbit-holes.md",
+                "file": "blog/example-post.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of rabbit-holes"
+              "title": "Outline of example-post"
             }
           }
         ]
@@ -170,20 +164,20 @@
   },
   "active": "7e9128e7bad01e29",
   "lastOpenFiles": [
+    "blog/getting-started.md",
+    "blog/What are Values.md",
+    "rabbit-holes/How To Do The Right Things Faster.md",
+    "rabbit-holes/What are values?.md",
+    "index.md",
+    "rabbit-holes.md",
     "attachments/experimental-perlin-donut-plotterfiles.png",
     "rabbit-holes/experimental-perlin-donut-plotterfiles.png.md",
     "experimental-perlin-donut-plotterfiles.png",
-    "rabbit-holes/What are values?.md",
-    "rabbit-holes/How To Do The Right Things Faster.md",
-    "index.md",
     "blog.md",
-    "rabbit-holes.md",
     "How To Do The Right Things Faster.md",
     "The nature of truth.md",
-    "blog/What are Values.md",
     "rabbit-holes/What are Values.md",
     "rabbit-holes",
-    "blog/getting-started.md",
     "blog/example-post.md",
     "blog/What are values?.md",
     "blog",

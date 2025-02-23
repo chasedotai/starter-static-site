@@ -181,3 +181,11 @@ footer {
 .stub-post:hover {
     opacity: 1;
 }
+
+/* Add styles for images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2em auto;
+}

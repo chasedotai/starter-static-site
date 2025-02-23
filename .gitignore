@@ -1,6 +1,12 @@
-node_modules/
+# Build output
 public/
+
+# Dependencies
+node_modules/
+
+# System files
 .DS_Store
+.env
 
 # Obsidian files
 .obsidian/workspace

@@ -22,16 +22,16 @@ function convertObsidianLinks(content) {
   // First convert ![[image.png]] to <img> tags - must come before regular links
   content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
     console.log('Converting image:', p1);
-    return `![${p1}](/attachments/${p1})`;
+    return `![${p1}](./attachments/${p1})`;
   });
 
   // Then convert [[page]] to regular links
   content = content.replace(/(?<!!)\[\[(.*?)\]\]/g, (match, p1) => {
     if (p1.includes('|')) {
       const [link, text] = p1.split('|');
-      return `[${text}](/${link}.html)`;
+      return `[${text}](./${link}.html)`;
     }
-    return `[${p1}](/${p1}.html)`;
+    return `[${p1}](./${p1}.html)`;
   });
 
   console.log('Processed content:', content);
@@ -129,7 +129,7 @@ async function build() {
           title: attributes.title,
           date: attributes.date,
           description: attributes.description,
-          url: `/rabbit-holes/${safeFileName}`,
+          url: `./rabbit-holes/${safeFileName}`,
           status: attributes.status || 'published'
         });
         

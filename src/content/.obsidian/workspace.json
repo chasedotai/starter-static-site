@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "rabbit-holes/How To Do The Right Things Faster.md",
+                "file": "about.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "How To Do The Right Things Faster"
+              "title": "about"
             }
           }
         ]
@@ -170,9 +170,10 @@
   },
   "active": "ef0019df9fabff42",
   "lastOpenFiles": [
+    "rabbit-holes/How To Do The Right Things Faster.md",
+    "about.md",
     "rabbit-holes/What are values?.md",
     "rabbit-holes/Hyperobjects.md",
-    "rabbit-holes/How To Do The Right Things Faster.md",
     "rabbit-holes.md",
     "index.md",
     "index.html",

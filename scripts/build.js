@@ -38,9 +38,11 @@ function convertObsidianLinks(content, isNested = false) {
   content = content.replace(/(?<!!)\[\[(.*?)\]\]/g, (match, p1) => {
     if (p1.includes('|')) {
       const [link, text] = p1.split('|');
-      return `[${text}](${prefix}${link}.html)`;
+      // For nested pages (in rabbit-holes directory), we need to link relatively
+      return `[${text}](${isNested ? './' : './rabbit-holes/'}${slugify(link)}.html)`;
     }
-    return `[${p1}](${prefix}${p1}.html)`;
+    // For nested pages (in rabbit-holes directory), we need to link relatively
+    return `[${p1}](${isNested ? './' : './rabbit-holes/'}${slugify(p1)}.html)`;
   });
 
   console.log('Processed content:', content);
@@ -59,7 +61,7 @@ function slugify(text) {
     .replace(/-+$/, '');         // Trim - from end of text
 }
 
-// Update the extractInternalLinks function
+// Update the extractInternalLinks function to handle spaces in filenames
 function extractInternalLinks(content) {
   const links = new Set();
   const linkRegex = /\[\[(.*?)\]\]/g;
@@ -70,7 +72,7 @@ function extractInternalLinks(content) {
     if (content.charAt(match.index - 1) === '!') continue;
     
     const link = match[1].split('|')[0]; // Get the link part before any |
-    links.add(link);
+    links.add(link.trim()); // Ensure we trim any whitespace
   }
   
   return Array.from(links);

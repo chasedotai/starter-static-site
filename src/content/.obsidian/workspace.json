@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "rabbit-holes/What are values?.md",
+                "file": "rabbit-holes/Hyperobjects.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "What are values?"
+              "title": "Hyperobjects"
             }
           }
         ]
@@ -170,6 +170,8 @@
   },
   "active": "ef0019df9fabff42",
   "lastOpenFiles": [
+    "rabbit-holes/What are values?.md",
+    "rabbit-holes/Hyperobjects.md",
     "rabbit-holes/How To Do The Right Things Faster.md",
     "rabbit-holes.md",
     "index.md",
@@ -182,7 +184,6 @@
     "attachments/experimental-perlin-donut-plotterfiles.png",
     "attachments",
     "about.html",
-    "rabbit-holes/What are values?.md",
     "rabbit-holes/experimental-perlin-donut-plotterfiles.png.md",
     "experimental-perlin-donut-plotterfiles.png",
     "How To Do The Right Things Faster.md",

@@ -11,27 +11,36 @@ fs.ensureDirSync(path.join(__dirname, '../src/content/rabbit-holes'));
 fs.ensureDirSync(path.join(__dirname, '../src/content/attachments')); // For Obsidian attachments
 fs.ensureDirSync(path.join(__dirname, '../src/templates'));
 
-// Read template
-const template = fs.readFileSync(
+// Read templates
+const rootTemplate = fs.readFileSync(
+  path.join(__dirname, '../src/templates/base.html'),
+  'utf-8'
+).replace(/href="\.\.\/"/g, 'href="./"')
+ .replace(/href="\.\.\/styles/g, 'href="./styles')
+ .replace(/href="\.\.\/rabbit-holes/g, 'href="./rabbit-holes');
+
+const nestedTemplate = fs.readFileSync(
   path.join(__dirname, '../src/templates/base.html'),
   'utf-8'
 );
 
 // Convert Obsidian links to HTML links and handle attachments
-function convertObsidianLinks(content) {
+function convertObsidianLinks(content, isNested = false) {
+  const prefix = isNested ? '../' : './';
+  
   // First convert ![[image.png]] to <img> tags - must come before regular links
   content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
     console.log('Converting image:', p1);
-    return `![${p1}](./attachments/${p1})`;
+    return `![${p1}](${prefix}attachments/${p1})`;
   });
 
   // Then convert [[page]] to regular links
   content = content.replace(/(?<!!)\[\[(.*?)\]\]/g, (match, p1) => {
     if (p1.includes('|')) {
       const [link, text] = p1.split('|');
-      return `[${text}](./${link}.html)`;
+      return `[${text}](${prefix}${link}.html)`;
     }
-    return `[${p1}](./${p1}.html)`;
+    return `[${p1}](${prefix}${p1}.html)`;
   });
 
   console.log('Processed content:', content);
@@ -119,7 +128,7 @@ async function build() {
       if (file.endsWith('.md')) {
         const content = await fs.readFile(path.join(blogDir, file), 'utf-8');
         const { attributes, body } = frontMatter(content);
-        const processedBody = convertObsidianLinks(body);
+        const processedBody = convertObsidianLinks(body, true);
         const html = marked(processedBody);
         
         // Create URL-friendly filename
@@ -133,7 +142,7 @@ async function build() {
           status: attributes.status || 'published'
         });
         
-        const finalHtml = template
+        const finalHtml = nestedTemplate
           .replace('{{title}}', attributes.title || 'Blog Post')
           .replace('{{content}}', html);
         
@@ -196,7 +205,7 @@ async function build() {
     if (file.endsWith('.md') && !file.startsWith('_')) {
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
       const { attributes, body } = frontMatter(content);
-      const processedBody = convertObsidianLinks(body);
+      const processedBody = convertObsidianLinks(body, false);
       let html = marked(processedBody);
       
       // If this is the blog index, inject the blog posts list
@@ -216,7 +225,7 @@ async function build() {
         html = html + postsHtml;
       }
       
-      const finalHtml = template
+      const finalHtml = rootTemplate
         .replace('{{title}}', attributes.title || 'My Site')
         .replace('{{content}}', html);
       

@@ -1,6 +1,6 @@
 ---
 title: Hyperobjects
-date: 2025-02-21
+date: 2025-02-23
 description: What is a hyperobject?
 ---
 ## What are hyperobjects?

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabbit Holes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle theme">
+        🌙
+    </button>
+    
+    <nav>
+        <span class="site-name">Chase</span>
+        <div class="nav-links">
+            <a href="/">About</a>
+            <a href="/rabbit-holes.html">Rabbit Holes</a>
+        </div>
+    </nav>
+    <main>
+        <h1 id="rabbit-holes-🕳️">Rabbit Holes 🕳️</h1>
+<p>These are topics I always return to. I keep thinking and learning and writing more about them. </p>
+<p><img src="/attachments/experimental-perlin-donut-plotterfiles.png" alt="experimental-perlin-donut-plotterfiles.png"></p>
+<!-- Blog posts will be automatically inserted here by the build script --> 
+            <article class="blog-post stub-post">
+              <h2>
+                <a href="/rabbit-holes/how-to-do-the-right-things-faster.html">How To Do The Right Things Faster</a>
+                <span class="stub-indicator">Stub</span>
+              </h2>
+              <time datetime="Fri Feb 21 2025 16:00:00 GMT-0800 (Pacific Standard Time)">2/21/2025</time>
+              <p>A future exploration</p>
+            </article>
+          
+
+            <article class="blog-post ">
+              <h2>
+                <a href="/rabbit-holes/what-are-values.html">What are values?</a>
+                
+              </h2>
+              <time datetime="Thu Feb 20 2025 16:00:00 GMT-0800 (Pacific Standard Time)">2/20/2025</time>
+              <p>A post about what it means to have, use, or make decisions driven by values.</p>
+            </article>
+          
+    </main>
+    <footer>
+        <p>You cannot save people. You can only love them. -Anaïs Nin</p>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const html = document.documentElement;
+        const themeToggle = document.querySelector('.theme-toggle');
+        
+        // Check for saved theme preference, otherwise use dark theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        });
+    </script>
+</body>
+</html> 

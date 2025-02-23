@@ -15,18 +15,16 @@ fs.ensureDirSync(path.join(__dirname, '../src/templates'));
 const rootTemplate = fs.readFileSync(
   path.join(__dirname, '../src/templates/base.html'),
   'utf-8'
-).replace(/href="\.\.\/"/g, 'href="./"')
- .replace(/href="\.\.\/styles/g, 'href="./styles')
- .replace(/href="\.\.\/rabbit-holes/g, 'href="./rabbit-holes');
+);
 
 const nestedTemplate = fs.readFileSync(
   path.join(__dirname, '../src/templates/base.html'),
   'utf-8'
-);
+).replace(/href="\/starter-static-site\//g, '../');
 
 // Convert Obsidian links to HTML links and handle attachments
 function convertObsidianLinks(content, isNested = false) {
-  const prefix = isNested ? '../' : './';
+  const prefix = isNested ? '../' : '/starter-static-site/';
   
   // First convert ![[image.png]] to <img> tags - must come before regular links
   content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
@@ -38,11 +36,9 @@ function convertObsidianLinks(content, isNested = false) {
   content = content.replace(/(?<!!)\[\[(.*?)\]\]/g, (match, p1) => {
     if (p1.includes('|')) {
       const [link, text] = p1.split('|');
-      // For nested pages (in rabbit-holes directory), we need to link relatively
-      return `[${text}](${isNested ? './' : './rabbit-holes/'}${slugify(link)}.html)`;
+      return `[${text}](${prefix}${slugify(link)}.html)`;
     }
-    // For nested pages (in rabbit-holes directory), we need to link relatively
-    return `[${p1}](${isNested ? './' : './rabbit-holes/'}${slugify(p1)}.html)`;
+    return `[${p1}](${prefix}${slugify(p1)}.html)`;
   });
 
   console.log('Processed content:', content);
@@ -140,7 +136,7 @@ async function build() {
           title: attributes.title,
           date: attributes.date,
           description: attributes.description,
-          url: `./rabbit-holes/${safeFileName}`,
+          url: `/starter-static-site/rabbit-holes/${safeFileName}`,
           status: attributes.status || 'published'
         });
         

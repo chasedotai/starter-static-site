@@ -20,7 +20,9 @@ const rootTemplate = fs.readFileSync(
 const nestedTemplate = fs.readFileSync(
   path.join(__dirname, '../src/templates/base.html'),
   'utf-8'
-).replace(/href="\/starter-static-site\//g, '../');
+).replace(/href="\/starter-static-site\/index.html"/g, 'href="../index.html"')
+ .replace(/href="\/starter-static-site\/rabbit-holes.html"/g, 'href="../rabbit-holes.html"')
+ .replace(/href="\/starter-static-site\/styles\//g, 'href="../styles/');
 
 // Convert Obsidian links to HTML links and handle attachments
 function convertObsidianLinks(content, isNested = false) {

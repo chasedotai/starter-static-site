@@ -20,16 +20,16 @@ function convertObsidianLinks(content) {
   // First convert ![[image.png]] to <img> tags - must come before regular links
   content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
     console.log('Converting image:', p1);
-    return `![${p1}](/starter-static-site/attachments/${p1})`;
+    return `![${p1}](./attachments/${p1})`;
   });
 
   // Then convert [[page]] to regular links
   content = content.replace(/(?<!!)\[\[(.*?)\]\]/g, (match, p1) => {
     if (p1.includes('|')) {
       const [link, text] = p1.split('|');
-      return `[${text}](/starter-static-site/${slugify(link)}.html)`;
+      return `[${text}](./${slugify(link)}.html)`;
     }
-    return `[${p1}](/starter-static-site/${slugify(p1)}.html)`;
+    return `[${p1}](./${slugify(p1)}.html)`;
   });
 
   console.log('Processed content:', content);
@@ -102,12 +102,33 @@ async function build() {
   // Track rabbit hole posts for the index
   const rabbitHolePosts = [];
   
+  // First pass: collect all rabbit hole posts
+  const files = await fs.readdir(contentDir);
+  for (const file of files) {
+    if (file.endsWith('.md') && !file.startsWith('_')) {
+      const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
+      const { attributes } = frontMatter(content);
+      
+      if (attributes.type === 'rabbit-hole') {
+        rabbitHolePosts.push({
+          title: attributes.title,
+          date: attributes.date,
+          description: attributes.description,
+          url: `./${slugify(file.replace('.md', ''))}.html`,
+          status: attributes.status || 'published'
+        });
+      }
+    }
+  }
+  
+  // Sort rabbit hole posts by date
+  rabbitHolePosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
   // Collect all internal links and existing files
   const allInternalLinks = new Set();
   const existingFiles = new Set();
   
-  // First pass: collect existing files and all internal links
-  const files = await fs.readdir(contentDir);
+  // Second pass: collect links and process files
   for (const file of files) {
     if (file.endsWith('.md')) {
       existingFiles.add(file.replace('.md', ''));
@@ -130,7 +151,7 @@ async function build() {
     }
   }
   
-  // Process all markdown files
+  // Final pass: generate HTML files
   for (const file of files) {
     if (file.endsWith('.md') && !file.startsWith('_')) {
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
@@ -138,21 +159,9 @@ async function build() {
       const processedBody = convertObsidianLinks(body);
       let html = marked(processedBody);
       
-      // If this is a rabbit hole post, add it to the list
-      if (attributes.type === 'rabbit-hole') {
-        rabbitHolePosts.push({
-          title: attributes.title,
-          date: attributes.date,
-          description: attributes.description,
-          url: `/starter-static-site/${slugify(file.replace('.md', ''))}.html`,
-          status: attributes.status || 'published'
-        });
-      }
-      
       // If this is the rabbit holes index, inject the posts list
       if (file === 'rabbit-holes.md') {
         const postsHtml = rabbitHolePosts
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map(post => `
             <article class="blog-post ${post.status === 'stub' ? 'stub-post' : ''}">
               <h2>

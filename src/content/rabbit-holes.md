@@ -1,11 +1,13 @@
 ---
 title: Rabbit Holes
-description: A collection of deep dives and explorations
+description: A collection of deep dives into various topics
 ---
 
 # Rabbit Holes 🕳️
 
-These are topics I always return to. I keep thinking and learning and writing more about them. 
+These are the various rabbit holes I've gone down. Some are deep explorations, others are just getting started.
+
+Below you'll find all my rabbit hole explorations, with the most recent ones first.
 
 ![[experimental-perlin-donut-plotterfiles.png]]
 

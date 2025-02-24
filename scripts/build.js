@@ -5,49 +5,37 @@ const frontMatter = require('front-matter');
 
 // Ensure build directories exist
 fs.ensureDirSync(path.join(__dirname, '../public'));
-fs.ensureDirSync(path.join(__dirname, '../public/rabbit-holes'));
 fs.ensureDirSync(path.join(__dirname, '../src/content'));
-fs.ensureDirSync(path.join(__dirname, '../src/content/rabbit-holes'));
 fs.ensureDirSync(path.join(__dirname, '../src/content/attachments')); // For Obsidian attachments
 fs.ensureDirSync(path.join(__dirname, '../src/templates'));
 
-// Read templates
-const rootTemplate = fs.readFileSync(
+// Read template
+const template = fs.readFileSync(
   path.join(__dirname, '../src/templates/base.html'),
   'utf-8'
 );
 
-const nestedTemplate = fs.readFileSync(
-  path.join(__dirname, '../src/templates/base.html'),
-  'utf-8'
-).replace(/href="\/starter-static-site\/index.html"/g, 'href="../index.html"')
- .replace(/href="\/starter-static-site\/rabbit-holes.html"/g, 'href="../rabbit-holes.html"')
- .replace(/href="\/starter-static-site\/styles\//g, 'href="../styles/');
-
 // Convert Obsidian links to HTML links and handle attachments
-function convertObsidianLinks(content, isNested = false) {
-  const prefix = isNested ? '../' : '/starter-static-site/';
-  
+function convertObsidianLinks(content) {
   // First convert ![[image.png]] to <img> tags - must come before regular links
   content = content.replace(/!\[\[(.*?)\]\]/g, (match, p1) => {
     console.log('Converting image:', p1);
-    return `![${p1}](${prefix}attachments/${p1})`;
+    return `![${p1}](/starter-static-site/attachments/${p1})`;
   });
 
   // Then convert [[page]] to regular links
   content = content.replace(/(?<!!)\[\[(.*?)\]\]/g, (match, p1) => {
     if (p1.includes('|')) {
       const [link, text] = p1.split('|');
-      return `[${text}](${prefix}${slugify(link)}.html)`;
+      return `[${text}](/starter-static-site/${slugify(link)}.html)`;
     }
-    return `[${p1}](${prefix}${slugify(p1)}.html)`;
+    return `[${p1}](/starter-static-site/${slugify(p1)}.html)`;
   });
 
   console.log('Processed content:', content);
   return content;
 }
 
-// Add this helper function at the top with the other functions
 function slugify(text) {
   return text
     .toString()
@@ -59,7 +47,6 @@ function slugify(text) {
     .replace(/-+$/, '');         // Trim - from end of text
 }
 
-// Update the extractInternalLinks function to handle spaces in filenames
 function extractInternalLinks(content) {
   const links = new Set();
   const linkRegex = /\[\[(.*?)\]\]/g;
@@ -76,7 +63,6 @@ function extractInternalLinks(content) {
   return Array.from(links);
 }
 
-// Add this function to create a placeholder page
 function createPlaceholderContent(title) {
   const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
   
@@ -84,6 +70,7 @@ function createPlaceholderContent(title) {
 title: ${title}
 date: ${today}
 description: A future exploration
+type: rabbit-hole
 status: stub
 ---
 
@@ -93,7 +80,6 @@ This is a side path in this rabbit hole that I haven't gone down yet.
 `;
 }
 
-// Build pages
 async function build() {
   // Copy static assets
   await fs.copy(
@@ -110,107 +96,63 @@ async function build() {
     );
   }
   
-  // Create blog directory in public
-  fs.ensureDirSync(path.join(__dirname, '../public/rabbit-holes'));
-  
   // Process markdown files
   const contentDir = path.join(__dirname, '../src/content');
-  const blogDir = path.join(contentDir, 'rabbit-holes');
   
-  // Track blog posts for the index
-  const blogPosts = [];
+  // Track rabbit hole posts for the index
+  const rabbitHolePosts = [];
   
-  // Process blog posts
-  if (fs.existsSync(blogDir)) {
-    const blogFiles = await fs.readdir(blogDir);
-    
-    for (const file of blogFiles) {
-      if (file.endsWith('.md')) {
-        const content = await fs.readFile(path.join(blogDir, file), 'utf-8');
-        const { attributes, body } = frontMatter(content);
-        const processedBody = convertObsidianLinks(body, true);
-        const html = marked(processedBody);
-        
-        // Create URL-friendly filename
-        const safeFileName = slugify(file.replace('.md', '')) + '.html';
-        
-        blogPosts.push({
-          title: attributes.title,
-          date: attributes.date,
-          description: attributes.description,
-          url: `/starter-static-site/rabbit-holes/${safeFileName}`,
-          status: attributes.status || 'published'
-        });
-        
-        const finalHtml = nestedTemplate
-          .replace('{{title}}', attributes.title || 'Blog Post')
-          .replace('{{content}}', html);
-        
-        await fs.writeFile(
-          path.join(__dirname, '../public/rabbit-holes', safeFileName),
-          finalHtml
-        );
-      }
-    }
-  }
-  
-  // Sort blog posts by date
-  blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-  
-  // Collect all internal links
+  // Collect all internal links and existing files
   const allInternalLinks = new Set();
   const existingFiles = new Set();
   
-  // First pass: collect existing files and all internal links from main content
+  // First pass: collect existing files and all internal links
   const files = await fs.readdir(contentDir);
   for (const file of files) {
     if (file.endsWith('.md')) {
-      existingFiles.add(path.join('rabbit-holes', file.replace('.md', '')));
+      existingFiles.add(file.replace('.md', ''));
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
       extractInternalLinks(content).forEach(link => allInternalLinks.add(link));
     }
   }
 
-  // Also check rabbit-holes directory for links
-  if (fs.existsSync(blogDir)) {
-    const blogFiles = await fs.readdir(blogDir);
-    for (const file of blogFiles) {
-      if (file.endsWith('.md')) {
-        existingFiles.add(path.join('rabbit-holes', file.replace('.md', '')));
-        const content = await fs.readFile(path.join(blogDir, file), 'utf-8');
-        extractInternalLinks(content).forEach(link => allInternalLinks.add(link));
-      }
-    }
-  }
-
   // Create placeholder files for missing links
   for (const link of allInternalLinks) {
-    const safePath = path.join(contentDir, 'rabbit-holes', `${link}.md`);
-    // Ensure the rabbit-holes directory exists
-    fs.ensureDirSync(path.join(contentDir, 'rabbit-holes'));
-    
-    if (!existingFiles.has(path.join('rabbit-holes', link))) {
+    const safePath = path.join(contentDir, `${slugify(link)}.md`);
+    if (!existingFiles.has(slugify(link))) {
       if (!fs.existsSync(safePath)) {
         await fs.writeFile(
           safePath,
           createPlaceholderContent(link)
         );
-        console.log(`Created placeholder for: ${link} in rabbit-holes directory`);
+        console.log(`Created placeholder for: ${link}`);
       }
     }
   }
   
-  // Process regular markdown files
+  // Process all markdown files
   for (const file of files) {
     if (file.endsWith('.md') && !file.startsWith('_')) {
       const content = await fs.readFile(path.join(contentDir, file), 'utf-8');
       const { attributes, body } = frontMatter(content);
-      const processedBody = convertObsidianLinks(body, false);
+      const processedBody = convertObsidianLinks(body);
       let html = marked(processedBody);
       
-      // If this is the blog index, inject the blog posts list
+      // If this is a rabbit hole post, add it to the list
+      if (attributes.type === 'rabbit-hole') {
+        rabbitHolePosts.push({
+          title: attributes.title,
+          date: attributes.date,
+          description: attributes.description,
+          url: `/starter-static-site/${slugify(file.replace('.md', ''))}.html`,
+          status: attributes.status || 'published'
+        });
+      }
+      
+      // If this is the rabbit holes index, inject the posts list
       if (file === 'rabbit-holes.md') {
-        const postsHtml = blogPosts
+        const postsHtml = rabbitHolePosts
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map(post => `
             <article class="blog-post ${post.status === 'stub' ? 'stub-post' : ''}">
               <h2>
@@ -225,11 +167,11 @@ async function build() {
         html = html + postsHtml;
       }
       
-      const finalHtml = rootTemplate
+      const finalHtml = template
         .replace('{{title}}', attributes.title || 'My Site')
         .replace('{{content}}', html);
       
-      const outFile = file.replace('.md', '.html');
+      const outFile = slugify(file.replace('.md', '')) + '.html';
       await fs.writeFile(
         path.join(__dirname, '../public', outFile),
         finalHtml

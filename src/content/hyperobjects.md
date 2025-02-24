@@ -2,6 +2,7 @@
 title: Hyperobjects
 date: 2025-02-23
 description: What is a hyperobject?
+type: rabbit-hole
 ---
 ## What are hyperobjects?
 

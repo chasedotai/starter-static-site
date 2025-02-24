@@ -2,7 +2,9 @@
 title: What are values?
 date: 2025-02-21
 description: A post about what it means to have, use, or make decisions driven by values.
+type: rabbit-hole
 ---
+
 What are values?
 
 Values are a combination of inherited and chosen preferences about how the world should be. Often they're framed as being about what is morally right or virtuous or true. Values play a huge role in the decisions you make.
@@ -13,6 +15,6 @@ Because values, whether we're aware of them or not, play such a big role in what
 
 Values are the weights we assign, consciously or unconsciously, to the inputs into our decision making. A more heavily weighted value will influence the direction of a decision more than a lightly weighted one. 
 
-Exploring your values can help you learn [[How To Do The Right Things Faster]] which will have positive compounding effects throughout your life. 
+Exploring your values can help you learn [[how-to-do-the-right-things-faster]] which will have positive compounding effects throughout your life. 
 
-This is an index page that will list off several other pages that explore the definition and use of values.
+This is an index page that will list off several other pages that explore the definition and use of values. 
